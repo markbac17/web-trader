@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/main.css') }}">
+</head>
+<body>
+
+<ul>
+  <li><a class="active" href="{{ url_for('home') }}">Home</a></li>
+  <li><a href="{{ url_for('balance') }}">1. View Balance</a></li>
+  <li><a href="{{ url_for('deposit') }}">2. Deposit Funds</a></li>
+  <li><a href="{{ url_for('buy') }}">3. Buy Shares</a></li>
+  <li><a href="{{ url_for('sell') }}">4. Sell Shares</a></li>
+  <li><a href="{{ url_for('positions') }}">5. View Positions</a></li>
+  <li><a href="{{ url_for('trades') }}">6. View Trades</a></li>
+  <li><a href="{{ url_for('price') }}">7. Check Stock Price</a></li>
+
+</ul>
+
+<div class="margin_left">
+  <h2>{{ message }}</h2>
+</div>
+</body>
+</html>

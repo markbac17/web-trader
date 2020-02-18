@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<head>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/main.css') }}">
+</head>
+<body>
+
+<ul>
+  <li><a href="{{ url_for('login') }}">1. Login</a></li>
+  <li><a href="{{ url_for('create') }}">2. Create Account</a></li>
+</ul>
+
+<div class="margin_left">
+  <h2>{{ message }}</h2>
+</div>
+
+<form method="post" action="/login">
+  <div class="margin-left">
+        <h2>Web Trader</h2>
+        <input class="box1" type="text" name="username" value="username"/>
+        <input type="password" name="password" value="password"/>
+            <input class='btn' type="submit">
+        </div>
+    </div>
+</form>
