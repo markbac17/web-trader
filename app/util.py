@@ -9,7 +9,7 @@ def checkpw(password, password_hash):
     return bcrypt.checkpw(password, password_hash)
 
 def get_price(ticker):
-    with open("./credentials/credentials.txt","r") as file:  
+    with open("./credentials/credentials.txt","r") as file:
         credential = file.read()
         credential.strip()
         #TODO: get price from IEX Cloud API

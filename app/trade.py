@@ -57,9 +57,7 @@ class Trade:
         with sqlite3.connect(cls.dbpath) as conn:
             conn.row_factory = sqlite3.Row
             curs = conn.cursor()
-            sql = f"""
-                    SELECT * FROM {cls.tablename} {where_clause};
-                  """
+            sql = 'SELECT * FROM {cls.tablename} {where_clause};'
             curs.execute(sql, values)
             rows = curs.fetchall()
             return [cls(**row) for row in rows]
@@ -72,9 +70,7 @@ class Trade:
         with sqlite3.connect(cls.dbpath) as conn:
             conn.row_factory = sqlite3.Row
             curs = conn.cursor()
-            sql = f"""
-                    SELECT * FROM {cls.tablename} WHERE account_id=?;
-                  """
+            sql = 'SELECT * FROM {cls.tablename} WHERE account_id=?;'
             curs.execute(sql, values)
             row =  curs.fetchone()
             return cls(**row)

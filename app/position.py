@@ -52,7 +52,7 @@ class Position:
         with sqlite3.connect(cls.dbpath) as conn:
             conn.row_factory = sqlite3.Row
             curs = conn.cursor()
-            sql = f"""SELECT * FROM {cls.tablename} {where_clause}"""
+            sql = "SELECT * FROM {cls.tablename} {where_clause};"
             # print(sql, values)
             curs.execute(sql, (values,))
             positions = curs.fetchall()
@@ -67,7 +67,7 @@ class Position:
         with sqlite3.connect(cls.dbpath) as conn:
             conn.row_factory = sqlite3.Row
             curs = conn.cursor()
-            sql = f"""SELECT * FROM {cls.tablename} {where_clause};"""
+            sql = "SELECT * FROM {cls.tablename} {where_clause};"
             curs.execute(sql, (values))
             position = curs.fetchone()
             if position is None:
@@ -76,5 +76,4 @@ class Position:
                 return cls(**position)
 
     def __repr__(self):
-        return 'Position id: {}, Account ID: {}, Ticker: {}, Shares: {}' \
-            .format(self.position_id, self.account_id, self.ticker, self.num_shares)
+        return 'Position id: {}, Account ID: {}, Ticker: {}, Shares: {}'.format(self.position_id, self.account_id, self.ticker, self.num_shares)

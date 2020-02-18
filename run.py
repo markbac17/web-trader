@@ -1,5 +1,10 @@
 import os
-from app import Account, Position, Trade, run
+from app.account import Account
+from app.position import Position
+from app.trade import Trade
+from app.controller import run
+import bcrypt
+import requests
 # from app import ORM
 
 DIR = os.path.dirname(__file__)

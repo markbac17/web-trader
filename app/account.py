@@ -1,10 +1,10 @@
 import sqlite3
-from .util import get_price, hash_password, checkpw
-from .position import Position
-from .trade import Trade
+from app.util import get_price, hash_password, checkpw
+from app.position import Position
+from app.trade import Trade
 from datetime import time
 from random import randint
-from .view import transaction_error
+from app.view import transaction_error
 
 class Account:
 
@@ -81,7 +81,7 @@ class Account:
         trade = Trade()
         current_price = get_price(ticker)
         mv = current_price * int(quantity)
-        
+
         if self.balance < mv:
             transaction_error('Insufficient funds')
         else:
@@ -144,8 +144,7 @@ class Account:
                     position.num_shares = trade.volume
                 else:
                     position.num_shares -= trade.volume
-                position.save() 
-                              
+                position.save()
         else:
             transaction_error('Ticker {} is invalid'.format(trade.ticker))
 
@@ -172,11 +171,10 @@ class Account:
         with sqlite3.connect(cls.dbpath) as conn:
             conn.row_factory = sqlite3.Row
             curs = conn.cursor()
-            sql = f"""SELECT * FROM {cls.tablename} {where_clause};"""
+            sql = f'SELECT * FROM {cls.tablename} {where_clause}'
             curs.execute(sql, values)
             row = curs.fetchone()
             return row
 
     def __repr__(self):
-        return 'Account ID: {}, User name: {}, Password hash: {}, api_key: {}, Balance: {}' \
-            .format(self.account_id, self.username, self.password_hash, self.api_key, self.balance)
+        return 'Account ID: {}, User name: {}, Password hash: {}, api_key: {}, Balance: {}'.format(self.account_id, self.username, self.password_hash, self.api_key, self.balance)

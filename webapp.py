@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, session, jsonify, url_for
+from app.account import Account
 
 app = Flask(__name__)
 app.secret_key = "this should be a random string"
@@ -8,7 +9,7 @@ def create2():
     if request.method == "GET":
         return render_template("create_account.html")
     else:
-        name = request.form.ge('name')
+        name = request.form.get('name')
         password = request.form.get('password')
         if name == "mark" and password == "1234":
             session['username'] = name
@@ -55,7 +56,12 @@ def price():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == 'POST':
-        return render_template("user_opts.html", message="Login")
+        name = request.form.get('username')
+        password = request.form.get('password')
+        login_input = []
+        login_input.append(name)
+        login_input.append(password)
+        return render_template("user_opts.html", message=login_input)
     elif request.method == 'GET':
         return render_template('login.html', message="Login")
 

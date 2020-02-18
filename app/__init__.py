@@ -1,4 +1,5 @@
-from .controller import run
-from .account import Account
-from .trade import Trade
-from .position import Position
+from app.controller import run
+from app.account import Account
+from app.trade import Trade
+from app.position import Position
+import app.view
