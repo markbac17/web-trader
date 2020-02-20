@@ -43,7 +43,7 @@ def home():
 
 @app.route("/balance", methods=["GET"])
 def balance():
-    balance = account.balance
+    balance = session.get('account_balance')
     return render_template("balance.html", message=balance )
 
 @app.route("/deposit", methods=["GET"])
@@ -60,11 +60,21 @@ def sell():
 
 @app.route("/positions", methods=["GET"])
 def positions():
-    return render_template("positions.html", message="View Positions")
+    positions = Account.get_positions(session.get('pk'))
+    if positions:
+        pass
+    else:
+        positions = "No positions available in this account"
+    return render_template("positions.html", message=positions)
 
 @app.route("/trades", methods=["GET"])
 def trades():
-    return render_template("trades.html", message="View Trades")
+    trades = Account.get_trades(session.get('pk')
+    if trades:
+        pass
+    else:
+        trades = "No trades available in this account"
+    return render_template("trades.html", message=trades)
 
 @app.route("/price", methods=["GET"])
 def price():
@@ -73,7 +83,6 @@ def price():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == 'POST':
-        session['username'] = request.form['username']
         name = request.form.get('username')
         password = request.form.get('password')
         login_input = []
@@ -87,7 +96,8 @@ def login():
                 account = Account(account_id = verified_account[0])
                 account.username = verified_account[1]
                 account.balance = int(verified_account[3])
-
+                session['pk'] = verified_account[0]
+                session['account_balance'] = verified_account[3]
         return render_template("user_opts.html", message="Welcome " + account.username)
     elif request.method == 'GET':
         return render_template('login.html', message="Login")
@@ -110,16 +120,6 @@ def create():
 def logout():
     session.pop("username", None)
     return redirect("/login")
-
-# @app.route('/', methods=['GET', 'POST'])
-# def index():
-#     if request.method == 'POST':
-#         if 'login' in request.form:
-#             return render_template("user_opts.html")
-#         if 'create' in request.form:
-#             return render_template("create_account.html")
-#         else:
-#             return "<h1>Bad</h1>"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',debug=True)
