@@ -148,17 +148,17 @@ class Account:
         else:
             transaction_error('Ticker {} is invalid'.format(trade.ticker))
 
-    def get_positions(self):
+    def get_positions(pk):
         """
             returns a list of Position objects
         """
-        return Position.select_all('WHERE account_id=?', self.account_id)
+        return Position.select_all('WHERE account_id=?', str(pk))
 
     def get_trades(self):
         """
             returns a list of Trade objects
         """
-        return Trade.select_all('WHERE account_id=?', (self.account_id,))
+        return Trade.select_all('WHERE account_id=?', str(pk))
 
     def get_position_for(self, ticker):
         return Position.select_one_where('WHERE account_pk=? AND ticker=?', (self.account_id, ticker))

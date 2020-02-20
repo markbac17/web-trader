@@ -52,7 +52,7 @@ class Position:
         with sqlite3.connect(cls.dbpath) as conn:
             conn.row_factory = sqlite3.Row
             curs = conn.cursor()
-            sql = "SELECT * FROM {cls.tablename} {where_clause};"
+            sql = f"""SELECT * FROM {cls.tablename} {where_clause};"""
             # print(sql, values)
             curs.execute(sql, (values,))
             positions = curs.fetchall()
