@@ -66,6 +66,9 @@ def main_loop():
             user = Account.api_authenticate(user_api_key)
             display_user_from_api_key(user)
         elif choice == '3': # create new account
+            account_details[0] = "mark"
+            account_details[1] = "1234"
+            account_details[2] = 1000
             account_details = create_account()
             account = Account()
             account.username = account_details[0]

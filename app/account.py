@@ -171,9 +171,11 @@ class Account:
         with sqlite3.connect(cls.dbpath) as conn:
             conn.row_factory = sqlite3.Row
             curs = conn.cursor()
-            sql = f'SELECT * FROM {cls.tablename} {where_clause}'
+            sql =f"""SELECT * FROM {cls.tablename} {where_clause}"""
+            print(sql)
             curs.execute(sql, values)
             row = curs.fetchone()
+            print(row)
             return row
 
     def __repr__(self):

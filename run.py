@@ -11,6 +11,8 @@ DIR = os.path.dirname(__file__)
 DBFILENAME = 'trader.db'
 DBPATH = os.path.join(DIR, 'data', DBFILENAME)
 
+print(DBPATH)
+
 Account.dbpath = DBPATH
 Position.dbpath = DBPATH
 Trade.dbpath = DBPATH

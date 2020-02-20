@@ -1,8 +1,24 @@
 from flask import Flask, render_template, request, redirect, session, jsonify, url_for
 from app.account import Account
+from app.position import Position
+from app.trade import Trade
+from app import view
+from bcrypt import checkpw
+from app.util import get_price
+from datetime import datetime
+from app.util import get_price, hash_password, checkpw
+import os
+
+DIR = os.path.dirname(__file__)
+DBFILENAME = 'trader.db'
+DBPATH = os.path.join(DIR, 'data', DBFILENAME)
+
+Account.dbpath = DBPATH
+Position.dbpath = DBPATH
+Trade.dbpath = DBPATH
 
 app = Flask(__name__)
-app.secret_key = "this should be a random string"
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 @app.route('/create_account', methods=["GET", "POST"])
 def create2():
@@ -27,7 +43,8 @@ def home():
 
 @app.route("/balance", methods=["GET"])
 def balance():
-    return render_template("balance.html", message="View Balance")
+    balance = account.balance
+    return render_template("balance.html", message=balance )
 
 @app.route("/deposit", methods=["GET"])
 def deposit():
@@ -56,17 +73,37 @@ def price():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == 'POST':
+        session['username'] = request.form['username']
         name = request.form.get('username')
         password = request.form.get('password')
         login_input = []
         login_input.append(name)
         login_input.append(password)
-        return render_template("user_opts.html", message=login_input)
+        verified_account = Account.login(login_input)
+        if verified_account:
+            db_password_hash = verified_account[2]
+            password_verify = checkpw(login_input[1].encode(), db_password_hash)
+            if password_verify:
+                account = Account(account_id = verified_account[0])
+                account.username = verified_account[1]
+                account.balance = int(verified_account[3])
+
+        return render_template("user_opts.html", message="Welcome " + account.username)
     elif request.method == 'GET':
         return render_template('login.html', message="Login")
 
 @app.route("/create", methods=["GET"])
 def create():
+    account_details = []
+    account_details.append("mark")
+    account_details.append("1234")
+    account_details.append(1000)
+    account = Account()
+    account.username = account_details[0]
+    account.password_hash = account_details[1]
+    account.balance = account_details[2]
+    account.api_key = account.generate_api_key()
+    Account.save(account)
     return render_template("create_account.html", message="Create Account")
 
 @app.route("/logout", methods=["GET"])
